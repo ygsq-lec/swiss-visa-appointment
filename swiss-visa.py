@@ -7,7 +7,7 @@ from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 # Path to your sound file
 SOUND_FILE = "siren.wav"
 
-# The last acceptable appointment date
+# The earliest acceptable appointment date
 TRIP_DATE = datetime(2025, 8, 15)
 
 # Your session token URL
@@ -47,7 +47,7 @@ def check_and_rebook(page: Page):
     try:
         # Try to fetch cell content quickly (2 sec timeout)
         cell = page.locator('//table[@class="mat-table cdk-table"]/tbody/tr[1]/td[1]')
-        cell.wait_for(timeout=2000)  # 2 seconds max
+        cell.wait_for(timeout=1000)  # 2 seconds max
         cell_text = cell.text_content()
         if not cell_text:
             raise RuntimeError("Appointment cell found but empty.")
@@ -64,15 +64,20 @@ def check_and_rebook(page: Page):
 
     # 5) If the earliest slot is earlier than our trip date, alert & rebook
     while is_earlier:
-        play_alert_sound()
-
         # click that first available slot
         page.click(
             '//table[@class="mat-table cdk-table"]/tbody/tr[1]/td[1]'
         )
 
+        # click book button
+        # comment this line out if use for re-book
+        page.click("#bookBtn")
+
         # click the final "Re-book" button
-        page.click("#rebookBtn")
+        # comment this line out if no current schedule
+        # page.click("#rebookBtn")
+
+        play_alert_sound()
 
         # optionally break out if you only want one rebook attempt:
         # break
