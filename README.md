@@ -16,7 +16,7 @@ This enhanced version replaces **Selenium** with **Playwright** for faster and m
 - [Playwright](https://playwright.dev/python/docs/intro)
 
 ## ▶️ Usage
-- Replacy ```******``` in ```SESSIONS_TOKEN_URL``` with your personal token from E-mail
+- Replace ```******``` in ```SESSIONS_TOKEN_URL``` with your personal token from E-mail
 - python swiss-visa.py
 
 ## 🙏 Credits
